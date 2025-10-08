@@ -6,8 +6,6 @@ import HomeCambio from "../components/homeCambio";
 export default function PageConversor({ route }) {
   const { moeda, valor, rates } = route.params;
 
-  console.log(route.params);
-
   if (!rates || !moeda) {
     return (
       <SafeAreaProvider>
@@ -18,7 +16,6 @@ export default function PageConversor({ route }) {
     );
   }
 
-  // Garantir que a taxa da moeda base exista
   const baseRate = rates[moeda] || 1;
 
   const convertedArray = Object.entries(rates).map(([destino, taxa]) => ({

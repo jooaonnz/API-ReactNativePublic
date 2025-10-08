@@ -10,16 +10,43 @@ import {
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { getCambio } from "../service/homeService";
 import HomeCambio from "../components/homeCambio";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function PageHome({ navigation }) {
   const [cambio, setCambio] = useState([]);
 
   async function fetchCambio() {
-    const data = await getCambio();
-    setCambio(data);
-    console.log("Respota da api abaixc:");
-    console.log(data);
+    try {
+      const data = await getCambio();
+      setCambio(data);
+      console.log("Respota da api abaixc:");
+      console.log(data);
+
+      await AsyncStorage.setItem("@cambio", JSON.stringify(data));
+    } catch (error) {
+      console.error("Erro ao buscar dados ou salvar dados:", error);
+    }
   }
+
+  useEffect(() => {
+    async function loadCambio() {
+      try {
+        const jsonValue = await AsyncStorage.getItem("@cambio");
+        if (jsonValue != null) {
+          const savedData = JSON.parse(jsonValue);
+          setCambio(savedData);
+          console.log("Dados carregados do AsyncStorage:", savedData);
+        } else {
+          // se não tiver nada, buscar da API
+          fetchCambio();
+        }
+      } catch (error) {
+        console.error("Erro ao carregar dados do AsyncStorage:", error);
+      }
+    }
+
+    loadCambio();
+  }, []);
 
   const ratesArray = Object.entries(cambio?.conversion_rates || {}).map(
     ([moeda, valor]) => ({
@@ -33,7 +60,7 @@ export default function PageHome({ navigation }) {
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Cotações</Text>
-        <Button title="Buscar Câmbio" onPress={fetchCambio} />
+        <Button title="Carregar cotação" onPress={fetchCambio} />
 
         <FlatList
           data={ratesArray}
@@ -61,12 +88,3 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 16 },
   title: { fontSize: 22, fontWeight: "bold", marginBottom: 12, color: "#000" },
 });
-
-/*
- Api pública de câmbio
-    https://www.exchangerate-api.com/docs/free?ref=freepublicapis.com
-
- Site com apis disponível
-    https://www.freepublicapis.com/tags/public-data
-
-*/
