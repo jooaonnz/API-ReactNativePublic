@@ -2,14 +2,13 @@ import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import PageHome from "../features/home/screens/PageHome";
 import PageConversor from "../features/home/screens/PageConversor";
-
-export { PageHome } from "../features/home/screens/PageHome";
+import PageInfo from "../features/inicio/screens/PageInfo";
 
 export default function AppNavigation() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <Stack.Navigator initialRouteName="PageHome">
+    <Stack.Navigator initialRouteName="PageInfo">
       <Stack.Screen
         name="PageHome"
         component={PageHome}
@@ -19,6 +18,12 @@ export default function AppNavigation() {
       <Stack.Screen
         name="PageConversor"
         component={PageConversor}
+        options={{ headerShown: true }}
+      />
+
+      <Stack.Screen
+        name="PageInfo"
+        component={PageInfo}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
