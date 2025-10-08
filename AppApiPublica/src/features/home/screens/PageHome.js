@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, FlatList, StyleSheet, Button } from "react-native";
+import {
+  Text,
+  View,
+  FlatList,
+  StyleSheet,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { getCambio } from "../service/homeService";
 import HomeCambio from "../components/homeCambio";
@@ -14,32 +21,45 @@ export default function PageHome({ navigation }) {
     console.log(data);
   }
 
+  const ratesArray = Object.entries(cambio?.conversion_rates || {}).map(
+    ([moeda, valor]) => ({
+      id: moeda,
+      title: moeda,
+      body: `1 ${cambio?.base_code || "USD"} = ${valor} ${moeda}`,
+    })
+  );
+
   return (
     <SafeAreaProvider>
-      <SafeAreaView>
-        <View style={styles.container}>
-          <View style={styles.container2}>
-            <Text style={styles.text}>Olá mundo</Text>
-            <Button onPress={fetchCambio} title="Fazer request" />
-            <FlatList
-              data={cambio}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => (
-                <HomeCambio title={item.title} body={item.body} />
-              )}
-            />
-          </View>
-        </View>
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.title}>Cotações</Text>
+        <Button title="Buscar Câmbio" onPress={fetchCambio} />
+
+        <FlatList
+          data={ratesArray}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("PageConversor", {
+                  moeda: item.title,
+                  valor: item.body,
+                  rates: cambio.conversion_rates,
+                })
+              }
+            >
+              <HomeCambio title={item.title} body={item.body} />
+            </TouchableOpacity>
+          )}
+        />
       </SafeAreaView>
     </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
-  text: {
-    color: "#000",
-  },
+  container: { flex: 1, padding: 16 },
+  title: { fontSize: 22, fontWeight: "bold", marginBottom: 12, color: "#000" },
 });
 
 /*
