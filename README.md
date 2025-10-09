@@ -36,7 +36,12 @@ Cole no arquivo:
 
 const API_KEY = "SUA_CHAVE_API";
 
-npx expo start
+Para rodar o App é nescessário da:
+
+cd AppApiPublica 
+
+rodar npx expo start
+nesste local, para chamar o index.js e após chamar o App.js em src
 
 Desafios Enfrentados
 Organização da Estrutura do Projeto
