@@ -58,33 +58,46 @@ export default function PageHome({ navigation }) {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Cotações</Text>
-        <Button title="Carregar cotação" onPress={fetchCambio} />
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.container2}>
+          <Text style={styles.title}>Moedas</Text>
 
-        <FlatList
-          data={ratesArray}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("PageConversor", {
-                  moeda: item.title,
-                  valor: item.body,
-                  rates: cambio.conversion_rates,
-                })
-              }
-            >
-              <HomeCambio title={item.title} body={item.body} />
-            </TouchableOpacity>
-          )}
-        />
+          <FlatList
+            style={styles.containerList}
+            data={ratesArray}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("PageConversor", {
+                    moeda: item.title,
+                    valor: item.body,
+                    rates: cambio.conversion_rates,
+                  })
+                }
+              >
+                <HomeCambio title={item.title} body={item.body} />
+              </TouchableOpacity>
+            )}
+          />
+        </View>
       </SafeAreaView>
     </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
-  title: { fontSize: 22, fontWeight: "bold", marginBottom: 12, color: "#000" },
+  safeArea: {
+    backgroundColor: "#3e8fd1ff",
+  },
+  container2: {
+    padding: 20,
+    backgroundColor: "#001E36",
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 12,
+    color: "#E5E9ED",
+  },
 });

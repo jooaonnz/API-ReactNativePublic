@@ -18,7 +18,16 @@ export default function AppNavigation() {
       <Stack.Screen
         name="PageConversor"
         component={PageConversor}
-        options={{ headerShown: true }}
+        options={{
+          headerShown: true,
+          title: "Página de conversão",
+          headerTitleStyle: {
+            color: "#E5E9ED",
+          },
+          headerStyle: {
+            backgroundColor: "#001E36",
+          },
+        }}
       />
 
       <Stack.Screen

@@ -12,11 +12,11 @@ export default function HomeCambio({ title, body }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#fff",
+    backgroundColor: "#1768A8",
     padding: 16,
     borderRadius: 8,
     marginBottom: 12,
-    shadowColor: "#000",
+    shadowColor: "#00152A",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -29,6 +29,6 @@ const styles = StyleSheet.create({
   },
   body: {
     fontSize: 14,
-    color: "#555",
+    color: "#00152A",
   },
 });
